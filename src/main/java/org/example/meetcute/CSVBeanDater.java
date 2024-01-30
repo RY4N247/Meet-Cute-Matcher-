@@ -3,93 +3,201 @@ import com.opencsv.bean.CsvBindByName;
 
 
 public class CSVBeanDater {
-
-    //Basic Information
-    @CsvBindByName(column = "Full Name", required = true)
-    public String fullName;
-
-    @CsvBindByName(column = "Email Address", required = true)
+    @CsvBindByName(column = "Email address", required = true)
     public String emailAddress;
 
+    @CsvBindByName(column = "Full Name", required = true)
+    public String fullName;
+    @CsvBindByName(column = "Email Address", required = true)
+    public String alternativeEmail;
+
     @CsvBindByName(column = "Student ID", required = true)
-    public String studentID;
+    public String studentId;
 
     @CsvBindByName(column = "I identify as...", required = true)
-    public String identity;
+    public String genderIdentity;
 
     @CsvBindByName(column = "My age is...", required = true)
-    public String age;
-
-    public String getPronouns() {
-        return pronouns;
-    }
-
+    public int age;
 
     @CsvBindByName(column = "My pronouns are", required = true)
     public String pronouns;
 
+    @CsvBindByName(column = "I am in...", required = true)
+    public String currentStatus;
+
     @CsvBindByName(column = "Dietary requirements", required = true)
-    public String diet;
+    public String dietaryRequirements;
+
+    @CsvBindByName(column = "What is the maximum age you would date?", required = true)
+    public int maxPreferredAge;
+
+    @CsvBindByName(column = "I want to go on a ... \n" +
+            "(choose between being matched with a new friend or a date)", required = true)
+    public String matchPreference;
+
+    @CsvBindByName(column = "I am adventurous")
+    public int adventurousLevel;
+
+    @CsvBindByName(column = "I am confident")
+    public int confidenceLevel;
+
+    @CsvBindByName(column = "I like to have intellectual conversations")
+    public int intellectualLevel;
+
+    @CsvBindByName(column = "I am an extrovert")
+    public int extrovertLevel;
+
+    @CsvBindByName(column = "I like to dance")
+    public int likesDancing;
+
+    @CsvBindByName(column = "On a Friday night, I would most likely be out clubbing")
+    public int goesClubbing;
+
+    @CsvBindByName(column = "I like to travel")
+    public int likesTraveling;
+
+    @CsvBindByName(column = "I like discussing books or/and movies")
+    public int likesBookAndMovies;
+
+    @CsvBindByName(column = "I like sarcastic people")
+    public int likesSarcasticPeople;
+
+    @CsvBindByName(column = "I am passionate about talking about politics")
+    public int passionateAboutPolitics;
+
+    @CsvBindByName(column = "Who would you like to date? (please double-check that you have correctly entered in your preference for the below question, before submitting this form)")
+    public String preferredDate;
+
+    @CsvBindByName(column = "What language are you proficient in?")
+    public String proficientLanguage;
+
+    @CsvBindByName(column = "Would you like your date to be in the language you are proficient in?")
+    public String preferSameLanguage;
+
+    @CsvBindByName(column = "I am Adventurous")
+    public int isAdventurous;
+
+    @CsvBindByName(column = "I am looking for something serious")
+    public int lookingForSeriousRelationship;
+
+    @CsvBindByName(column = "It's important for my partner to share the same morals as me.")
+    public int sharedMorals;
+
+    @CsvBindByName(column = "I am a romantic.")
+    public int isRomantic;
 
 
-    // Getters and Setters for each field
+    //getters
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
     public String getFullName() {
         return fullName;
     }
 
-
-
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getAlternativeEmail() {
+        return alternativeEmail;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public String getStudentId() {
+        return studentId;
     }
 
+    public String getGenderIdentity() {
+        return genderIdentity;
+    }
 
+    public int getAge() {
+        return age;
+    }
 
+    public String getPronouns() {
+        return pronouns;
+    }
 
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
 
+    public String getDietaryRequirements() {
+        return dietaryRequirements;
+    }
 
+    public int getMaxPreferredAge() {
+        return maxPreferredAge;
+    }
 
+    public String getMatchPreference() {
+        return matchPreference;
+    }
 
+    public int getAdventurousLevel() {
+        return adventurousLevel;
+    }
 
-    //Preferences
+    public int getConfidenceLevel() {
+        return confidenceLevel;
+    }
 
+    public int getIntellectualLevel() {
+        return intellectualLevel;
+    }
+
+    public int getExtrovertLevel() {
+        return extrovertLevel;
+    }
+
+    public int isLikesDancing() {
+        return likesDancing;
+    }
+
+    public int isGoesClubbing() {
+        return goesClubbing;
+    }
+
+    public int isLikesTraveling() {
+        return likesTraveling;
+    }
+
+    public int isLikesBookAndMovies() {
+        return likesBookAndMovies;
+    }
+
+    public int isLikesSarcasticPeople() {
+        return likesSarcasticPeople;
+    }
+
+    public int isPassionateAboutPolitics() {
+        return passionateAboutPolitics;
+    }
+
+    public String getPreferredDate() {
+        return preferredDate;
+    }
+
+    public String getProficientLanguage() {
+        return proficientLanguage;
+    }
+
+    public String isPreferSameLanguage() {
+        return preferSameLanguage;
+    }
+
+    public int isAdventurous() {
+        return isAdventurous;
+    }
+
+    public int isLookingForSeriousRelationship() {
+        return lookingForSeriousRelationship;
+    }
+
+    public int isSharedMorals() {
+        return sharedMorals;
+    }
+
+    public int isRomantic() {
+        return isRomantic;
+    }
 }
-/*
-Full Name
-Email Address
-Student ID
-I identify as...
-My ethnicity is...
-My age is...
-My pronouns are	I am in...
-Dietary requirements
-I would like my date to be in the age range.. (State your preferred age range as, for example, 18-21)
-I want to go on a ... (choose between being matched with a new friend or a date)
-I am adventurous
-I am confident
-I like to have intellectual conversations
-I like talking about my feelings and emotions
-I am an extrovert	I care about the environment
-I like to dance	I have a strong connection with religion
-On a Friday night, I would most likely be out clubbing
-I believe being close to your family is important
-I like to travel
-I tend to swear a lot
-I am always very organised and tidy	I tend to prioritise my academic life over my social life
-I like discussing books or/and movies
-I am laid back
-I like sarcastic people
-I tend to base my decisions on feelings rather than rational thinking
-In a heated argument, I am okay with being proven wrong and/or change my view based on what my opponent has said
-Healthy living is important to me
-I believe actions speak louder than words
-I am passionate about talking about politics
-It's important for my friends to share the same morals as me
-I am more interested in STEM subjects than humanities
-Who would you like to date? (please double check that you have correctly entered in your preference for the below question, before submitting this form)	What language(s) are you proficient in (you may select multiple options)	Would you like your date to be in the language you are proficient in?	I am adventurous	I am looking for something serious	I like to have intellectual conversations	I am an extrovert	I like to travel.	It's important for my partner to share the same morals as me.	I am a romantic.
- */

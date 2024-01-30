@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.sql.Date;
 
@@ -21,6 +24,9 @@ public class MeetCuteController {
     private File selectedCsvFile;
     @FXML
     private Button uploadCSVButton;
+    private ArrayList<CSVBeanDater> Romanticlist = new ArrayList<>();
+    private ArrayList<CSVBeanDater> FriendList = new ArrayList<>();
+    private ArrayList<CSVBeanDater> SpeedDate = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -53,10 +59,49 @@ public class MeetCuteController {
 
             // Example: Print the data from the first bean
             if (!((List<?>) beans).isEmpty()) {
-                CSVBeanDater firstBean = beans.get(0);
-                System.out.println("Name:  " + firstBean.getFullName());
-                System.out.println("Email: " + firstBean.getEmailAddress());
-                System.out.println("Pronouns: " + firstBean.getPronouns());
+                //CSVBeanDater firstBean = beans.get(0);
+                //System.out.printf("" + firstBean.getFullName());
+
+
+
+                for (CSVBeanDater bean : beans) {
+                    if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
+                        Romanticlist.add(bean);
+                    }else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())){
+                        FriendList.add(bean);
+                    }else{
+                        SpeedDate.add(bean);
+                    }
+
+                }
+
+
+
+                for (CSVBeanDater bean : Romanticlist) {
+                    System.out.println(bean.getFullName());
+
+                }
+
+                for (CSVBeanDater bean : FriendList) {
+                    System.out.println(bean.getFullName());
+
+                }
+
+                for (CSVBeanDater bean : SpeedDate) {
+                    System.out.println(bean.getFullName());
+
+                }
+
+
+
+
+
+
+
+
+
+
+
             }
 
         }catch (FileNotFoundException e) {
@@ -68,6 +113,14 @@ public class MeetCuteController {
 
 
         }
+
+        //get list
+        public List<CSVBeanDater> getList() {
+            return Collections.unmodifiableList(Romanticlist);
+        }
+
+
+
     }
 
 
