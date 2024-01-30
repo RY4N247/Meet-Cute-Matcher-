@@ -6,19 +6,53 @@ public class CSVBeanDater {
 
     //Basic Information
     @CsvBindByName(column = "Full Name", required = true)
-    private String fullName;
+    public String fullName;
 
     @CsvBindByName(column = "Email Address", required = true)
-    private String emailAdress;
+    public String emailAddress;
 
     @CsvBindByName(column = "Student ID", required = true)
-    private String fullName;
+    public String studentID;
 
     @CsvBindByName(column = "I identify as...", required = true)
-    private String identity;
+    public String identity;
 
-    @CsvBindByName(column = "I identify as...", required = true)
-    private String identity;
+    @CsvBindByName(column = "My age is...", required = true)
+    public String age;
+
+    public String getPronouns() {
+        return pronouns;
+    }
+
+
+    @CsvBindByName(column = "My pronouns are", required = true)
+    public String pronouns;
+
+    @CsvBindByName(column = "Dietary requirements", required = true)
+    public String diet;
+
+
+    // Getters and Setters for each field
+
+    public String getFullName() {
+        return fullName;
+    }
+
+
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+
+
+
+
+
 
 
 

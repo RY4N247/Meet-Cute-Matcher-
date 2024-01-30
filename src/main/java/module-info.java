@@ -9,6 +9,7 @@ module org.example.meetcute {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.opencsv;
+    requires java.sql;
 
     opens org.example.meetcute to javafx.fxml;
     exports org.example.meetcute;
