@@ -8,6 +8,7 @@ module org.example.meetcute {
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires com.opencsv;
 
     opens org.example.meetcute to javafx.fxml;
     exports org.example.meetcute;

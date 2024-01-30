@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class MeetCuteController {
+    private File selectedCsvFile;
     @FXML
     private Button uploadCSVButton;
 
@@ -31,8 +32,13 @@ public class MeetCuteController {
         if (selectedFile != null) {
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             // Add your logic to handle the selected file here
+
         } else {
             System.out.println("No file selected");
         }
+    }
+
+    public File getSelectedCsvFile() {
+        return selectedCsvFile;
     }
 }
