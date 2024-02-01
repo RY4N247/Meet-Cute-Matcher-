@@ -76,20 +76,30 @@ public class MeetCuteController {
                     }
 
 
-                    for (CSVBeanDater bean : Romanticlist) {
-                        System.out.println(bean.getFullName());
+                    int countRom = 0;
 
+                    for (CSVBeanDater bean : Romanticlist) {
+                        countRom++;
+                        System.out.println("Romantic" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
                     }
+                    System.out.println(countRom);
+
+                    int countFriend = 0;
 
                     for (CSVBeanDater bean : FriendList) {
-                        System.out.println(bean.getFullName());
-
+                        countFriend++;
+                        System.out.println("Friend" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
                     }
+                    System.out.println(countFriend);
+
+                    int countspeed = 0;
 
                     for (CSVBeanDater bean : SpeedDate) {
-                        System.out.println(bean.getFullName());
-
+                        countspeed++;
+                        System.out.println("Speed" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
                     }
+                    System.out.println(countspeed);
+                    System.out.println(countspeed + countRom + countFriend);
 
 
                 }
