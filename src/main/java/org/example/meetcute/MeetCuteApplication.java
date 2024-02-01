@@ -20,6 +20,10 @@ public class MeetCuteApplication extends Application {
         stage.setTitle("Meet Cute");
         stage.setScene(scene);
         stage.show();
+
+        // Access the controller and call the matchmaking method
+        MeetCuteController controller = fxmlLoader.getController();
+        controller.startMatchMaking();
     }
 
     public static void main(String[] args) {

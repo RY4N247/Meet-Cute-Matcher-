@@ -72,14 +72,23 @@ public class CSVBeanDater {
     @CsvBindByName(column = "What language are you proficient in?")
     public String proficientLanguage;
 
-    @CsvBindByName(column = "Would you like your date to be in the language you are proficient in?")
-    public String preferSameLanguage;
+    @CsvBindByName(column = "What language would you prefer your date to be in?")
+    public String preferredLanguage;
 
     @CsvBindByName(column = "I am Adventurous")
     public int isAdventurous;
 
     @CsvBindByName(column = "I am looking for something serious")
     public int lookingForSeriousRelationship;
+
+    @CsvBindByName(column = "I like to have intellectual conversations ")
+    public int intellectualConversations;
+
+    @CsvBindByName(column = "I am an Extrovert ")
+    public int isExtrovert;
+
+    @CsvBindByName(column = "I like to travel. ")
+    public int likeTravel;
 
     @CsvBindByName(column = "It's important for my partner to share the same morals as me.")
     public int sharedMorals;
@@ -141,24 +150,12 @@ public class CSVBeanDater {
         return confidenceLevel;
     }
 
-    public int getIntellectualLevel() {
-        return intellectualLevel;
-    }
-
-    public int getExtrovertLevel() {
-        return extrovertLevel;
-    }
-
     public int isLikesDancing() {
         return likesDancing;
     }
 
     public int isGoesClubbing() {
         return goesClubbing;
-    }
-
-    public int isLikesTraveling() {
-        return likesTraveling;
     }
 
     public int isLikesBookAndMovies() {
@@ -181,23 +178,34 @@ public class CSVBeanDater {
         return proficientLanguage;
     }
 
-    public String isPreferSameLanguage() {
-        return preferSameLanguage;
+    public String getPreferredLanguage() {
+        return preferredLanguage;
     }
 
-    public int isAdventurous() {
+    public int getIsAdventurous() {
         return isAdventurous;
     }
 
-    public int isLookingForSeriousRelationship() {
+    public int getLookingForSeriousRelationship() {
         return lookingForSeriousRelationship;
     }
+    public int getIntellectualLevel() {
+        return intellectualLevel;
+    }
 
-    public int isSharedMorals() {
+    public int getExtrovertLevel() {
+        return extrovertLevel;
+    }
+
+    public int getLikesTraveling() {
+        return likesTraveling;
+    }
+
+    public int getSharedMorals() {
         return sharedMorals;
     }
 
-    public int isRomantic() {
+    public int getIsRomantic() {
         return isRomantic;
     }
 }

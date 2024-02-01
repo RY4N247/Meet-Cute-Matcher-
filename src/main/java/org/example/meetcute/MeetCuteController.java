@@ -27,6 +27,7 @@ public class MeetCuteController {
     private ArrayList<CSVBeanDater> Romanticlist = new ArrayList<>();
     private ArrayList<CSVBeanDater> FriendList = new ArrayList<>();
     private ArrayList<CSVBeanDater> SpeedDate = new ArrayList<>();
+    private int matchedCount = 0;
 
     @FXML
     private void initialize() {
@@ -45,82 +46,170 @@ public class MeetCuteController {
         // Process the selected file (you can replace this with your logic)
         if (selectedFile != null) {
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-        try{
-            // Create CSVBeanDater and use CsvToBean to read CSV data into a list of beans
-            CSVBeanDater beanDater = new CSVBeanDater();
-            CsvToBean<CSVBeanDater> csvToBean = new CsvToBeanBuilder<CSVBeanDater>(new FileReader(selectedFile))
-                    .withType(CSVBeanDater.class)
-                    .build();
+            try {
+                // Create CSVBeanDater and use CsvToBean to read CSV data into a list of beans
+                CSVBeanDater beanDater = new CSVBeanDater();
+                CsvToBean<CSVBeanDater> csvToBean = new CsvToBeanBuilder<CSVBeanDater>(new FileReader(selectedFile))
+                        .withType(CSVBeanDater.class)
+                        .build();
 
-            List<CSVBeanDater> beans = csvToBean.parse();
+                List<CSVBeanDater> beans = csvToBean.parse();
 
-            // Now 'beans' contains the data from the CSV file mapped to your Java bean
-            // You can iterate through the list and work with the data as needed
+                // Now 'beans' contains the data from the CSV file mapped to your Java bean
+                // You can iterate through the list and work with the data as needed
 
-            // Example: Print the data from the first bean
-            if (!((List<?>) beans).isEmpty()) {
-                //CSVBeanDater firstBean = beans.get(0);
-                //System.out.printf("" + firstBean.getFullName());
+                // Example: Print the data from the first bean
+                if (!((List<?>) beans).isEmpty()) {
+                    //CSVBeanDater firstBean = beans.get(0);
+                    //System.out.printf("" + firstBean.getFullName());
 
 
+                    for (CSVBeanDater bean : beans) {
+                        if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
+                            Romanticlist.add(bean);
+                        } else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
+                            FriendList.add(bean);
+                        } else {
+                            SpeedDate.add(bean);
+                        }
 
-                for (CSVBeanDater bean : beans) {
-                    if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
-                        Romanticlist.add(bean);
-                    }else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())){
-                        FriendList.add(bean);
-                    }else{
-                        SpeedDate.add(bean);
                     }
 
+
+                    for (CSVBeanDater bean : Romanticlist) {
+                        System.out.println(bean.getFullName());
+
+                    }
+
+                    for (CSVBeanDater bean : FriendList) {
+                        System.out.println(bean.getFullName());
+
+                    }
+
+                    for (CSVBeanDater bean : SpeedDate) {
+                        System.out.println(bean.getFullName());
+
+                    }
+
+
                 }
 
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No file selected");
+        }
+        matchAndCalculateCompatibility(Romanticlist);
 
 
-                for (CSVBeanDater bean : Romanticlist) {
-                    System.out.println(bean.getFullName());
+    }
 
-                }
+    //get list
+    public List<CSVBeanDater> getList() {
+        return Collections.unmodifiableList(Romanticlist);
+    }
 
-                for (CSVBeanDater bean : FriendList) {
-                    System.out.println(bean.getFullName());
-
-                }
-
-                for (CSVBeanDater bean : SpeedDate) {
-                    System.out.println(bean.getFullName());
-
-                }
-
-
-
-
-
-
-
-
-
-
-
+    private void matchAndCalculateCompatibility(List<CSVBeanDater> participants) {
+        // Implement matching and compatibility score calculation logic here
+        List<MatchedPair> matchedPairs = new ArrayList<>();
+        List<CSVBeanDater> unmatchedParticipants = new ArrayList<>(participants);
+        for (CSVBeanDater participant1 : participants) {
+            if (!unmatchedParticipants.contains(participant1)) {
+                continue; // Participant already matched
             }
 
-        }catch (FileNotFoundException e) {
-            e.printStackTrace();
+            for (CSVBeanDater participant2 : unmatchedParticipants) {
+                if (areCompulsoryFieldsMatching(participant1, participant2)) {
+                    int compatibilityScore = calculateCompatibilityScore(participant1, participant2);
+                    if (compatibilityScore >= 3) { // Adjusted to match only if compatibility score is 3 or above
+                        MatchedPair pair = new MatchedPair(participant1, participant2, compatibilityScore);
+                        matchedPairs.add(pair);
+                        unmatchedParticipants.remove(participant1);
+                        unmatchedParticipants.remove(participant2);
+                        matchedCount += 2;
+                    }
+                    break; // Move to the next participant after finding a match
+                }
+            }
         }
-    } else {
-        System.out.println("No file selected");
+        // Output matched pairs
+        outputMatches(matchedPairs);
+
+    }
+
+    private boolean areCompulsoryFieldsMatching(CSVBeanDater participant1, CSVBeanDater participant2) {
+        // Check if gender identity and preferred gender match
+        boolean genderMatch = participant1.getGenderIdentity().equalsIgnoreCase(participant2.getPreferredDate()) &&
+                participant2.getGenderIdentity().equalsIgnoreCase(participant1.getPreferredDate());
+
+        // Check if age preferences match
+        boolean ageMatch = participant1.getMaxPreferredAge() >= participant2.getAge() &&
+                participant2.getMaxPreferredAge() >= participant1.getAge();
+
+        // Check if language proficiency and language preference match
+        boolean languageMatch = participant1.getProficientLanguage().equalsIgnoreCase(participant2.getPreferredLanguage()) &&
+                participant2.getProficientLanguage().equalsIgnoreCase(participant1.getPreferredLanguage());
+
+        // Return true if all compulsory fields match, otherwise return false
+        return genderMatch && ageMatch && languageMatch;
+    }
+
+    private int calculateCompatibilityScore(CSVBeanDater participant1, CSVBeanDater participant2) {
+        int compatibilityScore = 0;
+
+        // Compare responses for each question and calculate the score
+        if (participant1.getIsAdventurous() == participant2.getIsAdventurous()) {
+            compatibilityScore++;
+        }
+        if (participant1.getLookingForSeriousRelationship() == participant2.getLookingForSeriousRelationship()) {
+            compatibilityScore++;
+        }
+        if (participant1.getIntellectualLevel() == participant2.getIntellectualLevel()) {
+            compatibilityScore++;
+        }
+        if (participant1.getExtrovertLevel() == participant2.getExtrovertLevel()) {
+            compatibilityScore++;
+        }
+        if (participant1.getLikesTraveling() == participant2.getLikesTraveling()) {
+            compatibilityScore++;
+        }
+        if (participant1.getSharedMorals() == participant2.getSharedMorals()) {
+            compatibilityScore++;
+        }
+        if (participant1.getIsRomantic() == participant2.getIsRomantic()) {
+            compatibilityScore++;
+        }
+
+        return compatibilityScore;
+    }
+
+    private void outputMatches(List<MatchedPair> matchedPairs) {
+        // Output matched pairs or groups of participants
+        for (MatchedPair pair : matchedPairs) {
+            CSVBeanDater participant1 = pair.getParticipant1();
+            CSVBeanDater participant2 = pair.getParticipant2();
+            int compatibilityScore = pair.getCompatibilityScore();
+
+            if (compatibilityScore >= 3) {
+                // Output the match
+                System.out.println("Matched Pair:");
+                System.out.println("Participant 1: " + participant1.getFullName());
+                System.out.println("Participant 2: " + participant2.getFullName());
+                System.out.println("Compatibility Score: " + compatibilityScore);
+                System.out.println();
+            }
+        }
+        System.out.println("Total Matched Count: " + matchedCount);
+    }
+    public void startMatchMaking() {
+        matchAndCalculateCompatibility(getList());
     }
 
 
-        }
-
-        //get list
-        public List<CSVBeanDater> getList() {
-            return Collections.unmodifiableList(Romanticlist);
-        }
+}
 
 
 
-    }
 
 
