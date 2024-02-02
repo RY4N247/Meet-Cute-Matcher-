@@ -66,7 +66,7 @@ public class CSVBeanDater {
     @CsvBindByName(column = "I am passionate about talking about politics")
     public int passionateAboutPolitics;
 
-    @CsvBindByName(column = "Who would you like to date? (please double-check that you have correctly entered in your preference for the below question, before submitting this form)")
+    @CsvBindByName(column = "Who would you like to date? (please double check that you have correctly entered in your preference for the below question, before submitting this form)")
     public String preferredDate;
 
     @CsvBindByName(column = "What language are you proficient in?")

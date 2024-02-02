@@ -59,50 +59,52 @@ public class MeetCuteController {
                 // You can iterate through the list and work with the data as needed
 
                 // Example: Print the data from the first bean
-                if (!((List<?>) beans).isEmpty()) {
-                    //CSVBeanDater firstBean = beans.get(0);
-                    //System.out.printf("" + firstBean.getFullName());
+                //if (!((List<?>) beans).isEmpty()) {
+                //CSVBeanDater firstBean = beans.get(0);
+                //System.out.printf("" + firstBean.getFullName());
 
 
-                    for (CSVBeanDater bean : beans) {
-                        if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
-                            Romanticlist.add(bean);
-                        } else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
-                            FriendList.add(bean);
-                        } else {
-                            SpeedDate.add(bean);
-                        }
-
+                for (CSVBeanDater bean : beans) {
+                    System.out.println("Preferred Date for " + bean.getFullName() + ": " + bean.getPreferredDate());
+                    if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
+                        Romanticlist.add(bean);
+                    } else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
+                        FriendList.add(bean);
+                    } else {
+                        SpeedDate.add(bean);
                     }
-
-
-                    int countRom = 0;
-
-                    for (CSVBeanDater bean : Romanticlist) {
-                        countRom++;
-                        System.out.println("Romantic" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
-                    }
-                    System.out.println(countRom);
-
-                    int countFriend = 0;
-
-                    for (CSVBeanDater bean : FriendList) {
-                        countFriend++;
-                        System.out.println("Friend" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
-                    }
-                    System.out.println(countFriend);
-
-                    int countspeed = 0;
-
-                    for (CSVBeanDater bean : SpeedDate) {
-                        countspeed++;
-                        System.out.println("Speed" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
-                    }
-                    System.out.println(countspeed);
-                    System.out.println(countspeed + countRom + countFriend);
 
 
                 }
+
+
+                int countRom = 0;
+
+                for (CSVBeanDater bean : Romanticlist) {
+                    countRom++;
+                    System.out.println("Romantic" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
+                }
+                System.out.println(countRom);
+
+                int countFriend = 0;
+
+                for (CSVBeanDater bean : FriendList) {
+                    countFriend++;
+                    System.out.println("Friend" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
+                }
+                System.out.println(countFriend);
+
+                int countspeed = 0;
+
+                for (CSVBeanDater bean : SpeedDate) {
+                    countspeed++;
+                    System.out.println("Speed" + ": " + bean.getFullName() + "" + bean.getMatchPreference());
+                }
+                System.out.println(countspeed);
+                System.out.println(countspeed + countRom + countFriend);
+
+
+
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -124,20 +126,26 @@ public class MeetCuteController {
         // Implement matching and compatibility score calculation logic here
         List<MatchedPair> matchedPairs = new ArrayList<>();
         List<CSVBeanDater> unmatchedParticipants = new ArrayList<>(participants);
-        for (CSVBeanDater participant1 : participants) {
+        for (int i = 0; i < participants.size(); i++) {
+            CSVBeanDater participant1 = participants.get(i);
             if (!unmatchedParticipants.contains(participant1)) {
                 continue; // Participant already matched
             }
-
-            for (CSVBeanDater participant2 : unmatchedParticipants) {
+            System.out.println("Checking participant1: " + participant1.getFullName());
+            for (int j = i + 1; j < participants.size(); j++) {
+                CSVBeanDater participant2 = participants.get(j);
+                System.out.println("Checking participant2: " + participant2.getFullName());
                 if (areCompulsoryFieldsMatching(participant1, participant2)) {
                     int compatibilityScore = calculateCompatibilityScore(participant1, participant2);
+                    System.out.println("Compatibility score between " + participant1.getFullName() +
+                            " and " + participant2.getFullName() + ": " + compatibilityScore);
                     if (compatibilityScore >= 3) { // Adjusted to match only if compatibility score is 3 or above
                         MatchedPair pair = new MatchedPair(participant1, participant2, compatibilityScore);
                         matchedPairs.add(pair);
                         unmatchedParticipants.remove(participant1);
                         unmatchedParticipants.remove(participant2);
-                        matchedCount += 2;
+                        matchedCount += 1;
+                        System.out.println("Pair added to matchedPairs.");
                     }
                     break; // Move to the next participant after finding a match
                 }
@@ -145,25 +153,33 @@ public class MeetCuteController {
         }
         // Output matched pairs
         outputMatches(matchedPairs);
-
     }
 
+
     private boolean areCompulsoryFieldsMatching(CSVBeanDater participant1, CSVBeanDater participant2) {
-        // Check if gender identity and preferred gender match
-        boolean genderMatch = participant1.getGenderIdentity().equalsIgnoreCase(participant2.getPreferredDate()) &&
-                participant2.getGenderIdentity().equalsIgnoreCase(participant1.getPreferredDate());
+        //String gender1 = participant1.getGenderIdentity();
+        //String gender2 = participant2.getPreferredDate();
+        //boolean genderMatch = gender1.equalsIgnoreCase(gender2);
+        //System.out.println("Gender1: " + gender1);
+        //System.out.println("Gender2: " + gender2);
+        //System.out.println("Gender Match: " + genderMatch);
 
         // Check if age preferences match
         boolean ageMatch = participant1.getMaxPreferredAge() >= participant2.getAge() &&
                 participant2.getMaxPreferredAge() >= participant1.getAge();
+        System.out.println("Age Match: " + ageMatch);
 
         // Check if language proficiency and language preference match
         boolean languageMatch = participant1.getProficientLanguage().equalsIgnoreCase(participant2.getPreferredLanguage()) &&
                 participant2.getProficientLanguage().equalsIgnoreCase(participant1.getPreferredLanguage());
+        System.out.println("Language Match: " + languageMatch);
 
         // Return true if all compulsory fields match, otherwise return false
-        return genderMatch && ageMatch && languageMatch;
+        boolean allFieldsMatch = ageMatch && languageMatch;
+        System.out.println("All Fields Match: " + allFieldsMatch);
+        return allFieldsMatch;
     }
+
 
     private int calculateCompatibilityScore(CSVBeanDater participant1, CSVBeanDater participant2) {
         int compatibilityScore = 0;
@@ -190,8 +206,8 @@ public class MeetCuteController {
         if (participant1.getIsRomantic() == participant2.getIsRomantic()) {
             compatibilityScore++;
         }
-
         return compatibilityScore;
+
     }
 
     private void outputMatches(List<MatchedPair> matchedPairs) {
@@ -200,21 +216,18 @@ public class MeetCuteController {
             CSVBeanDater participant1 = pair.getParticipant1();
             CSVBeanDater participant2 = pair.getParticipant2();
             int compatibilityScore = pair.getCompatibilityScore();
+            // Output the match
+            System.out.println("Matched Pair:");
+            System.out.println("Participant 1: " + participant1.getFullName());
+            System.out.println("Participant 2: " + participant2.getFullName());
+            System.out.println("Compatibility Score: " + compatibilityScore);
+            System.out.println();
 
-            if (compatibilityScore >= 3) {
-                // Output the match
-                System.out.println("Matched Pair:");
-                System.out.println("Participant 1: " + participant1.getFullName());
-                System.out.println("Participant 2: " + participant2.getFullName());
-                System.out.println("Compatibility Score: " + compatibilityScore);
-                System.out.println();
-            }
         }
+        System.out.print(matchedPairs);
         System.out.println("Total Matched Count: " + matchedCount);
     }
-    public void startMatchMaking() {
-        matchAndCalculateCompatibility(getList());
-    }
+
 
 
 }

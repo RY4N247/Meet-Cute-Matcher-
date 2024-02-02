@@ -23,7 +23,6 @@ public class MeetCuteApplication extends Application {
 
         // Access the controller and call the matchmaking method
         MeetCuteController controller = fxmlLoader.getController();
-        controller.startMatchMaking();
     }
 
     public static void main(String[] args) {
