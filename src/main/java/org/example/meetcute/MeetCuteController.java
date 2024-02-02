@@ -157,12 +157,12 @@ public class MeetCuteController {
 
 
     private boolean areCompulsoryFieldsMatching(CSVBeanDater participant1, CSVBeanDater participant2) {
-        //String gender1 = participant1.getGenderIdentity();
-        //String gender2 = participant2.getPreferredDate();
-        //boolean genderMatch = gender1.equalsIgnoreCase(gender2);
-        //System.out.println("Gender1: " + gender1);
-        //System.out.println("Gender2: " + gender2);
-        //System.out.println("Gender Match: " + genderMatch);
+        String gender1 = participant1.getGenderIdentity();
+        String gender2 = participant2.getPreferredDate();
+        boolean genderMatch = gender1.equalsIgnoreCase(gender2);
+        System.out.println("Gender1: " + gender1);
+        System.out.println("Gender2: " + gender2);
+        System.out.println("Gender Match: " + genderMatch);
 
         // Check if age preferences match
         boolean ageMatch = participant1.getMaxPreferredAge() >= participant2.getAge() &&
