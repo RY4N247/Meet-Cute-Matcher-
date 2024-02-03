@@ -65,7 +65,6 @@ public class MeetCuteController {
 
 
                 for (CSVBeanDater bean : beans) {
-                    System.out.println("Preferred Date for " + bean.getFullName() + ": " + bean.getPreferredDate());
                     if ("Romantic Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
                         Romanticlist.add(bean);
                     } else if ("Friend Date (First Dates)".equalsIgnoreCase(bean.getMatchPreference())) {
@@ -126,34 +125,36 @@ public class MeetCuteController {
         // Implement matching and compatibility score calculation logic here
         List<MatchedPair> matchedPairs = new ArrayList<>();
         List<CSVBeanDater> unmatchedParticipants = new ArrayList<>(participants);
-        for (int i = 0; i < participants.size(); i++) {
-            CSVBeanDater participant1 = participants.get(i);
+        for (int i = 0; i < unmatchedParticipants.size(); i++) {
+            CSVBeanDater participant1 = unmatchedParticipants.get(i);
             if (!unmatchedParticipants.contains(participant1)) {
                 continue; // Participant already matched
             }
             System.out.println("Checking participant1: " + participant1.getFullName());
-            for (int j = i + 1; j < participants.size(); j++) {
-                CSVBeanDater participant2 = participants.get(j);
+            for (int j = i + 1; j < unmatchedParticipants.size(); j++) {
+                CSVBeanDater participant2 = unmatchedParticipants.get(j);
                 System.out.println("Checking participant2: " + participant2.getFullName());
                 if (areCompulsoryFieldsMatching(participant1, participant2)) {
                     int compatibilityScore = calculateCompatibilityScore(participant1, participant2);
                     System.out.println("Compatibility score between " + participant1.getFullName() +
                             " and " + participant2.getFullName() + ": " + compatibilityScore);
-                    if (compatibilityScore >= 3) { // Adjusted to match only if compatibility score is 3 or above
+                    if (compatibilityScore >= 1) { // Adjusted to match only if compatibility score is 3 or above
                         MatchedPair pair = new MatchedPair(participant1, participant2, compatibilityScore);
                         matchedPairs.add(pair);
                         unmatchedParticipants.remove(participant1);
                         unmatchedParticipants.remove(participant2);
                         matchedCount += 1;
                         System.out.println("Pair added to matchedPairs.");
+
                     }
-                    break; // Move to the next participant after finding a match
+                    break;
                 }
             }
         }
         // Output matched pairs
         outputMatches(matchedPairs);
     }
+
 
 
     private boolean areCompulsoryFieldsMatching(CSVBeanDater participant1, CSVBeanDater participant2) {
@@ -183,28 +184,40 @@ public class MeetCuteController {
         int compatibilityScore = 0;
 
         // Compare responses for each question and calculate the score
-        if (participant1.getIsAdventurous() == participant2.getIsAdventurous()) {
+        boolean adventure = participant1.getIsAdventurous() == participant2.getIsAdventurous();
+        if (adventure){
             compatibilityScore++;
         }
-        if (participant1.getLookingForSeriousRelationship() == participant2.getLookingForSeriousRelationship()) {
+
+
+        boolean serious = participant1.getLookingForSeriousRelationship() == participant2.getLookingForSeriousRelationship();
+        if (serious) {
             compatibilityScore++;
         }
-        if (participant1.getIntellectualLevel() == participant2.getIntellectualLevel()) {
+
+        boolean intellectual = participant1.getIntellectualLevel() == participant2.getIntellectualLevel();
+        if (intellectual) {
             compatibilityScore++;
         }
-        if (participant1.getExtrovertLevel() == participant2.getExtrovertLevel()) {
+        boolean extrovert = participant1.getExtrovertLevel() == participant2.getExtrovertLevel();
+        if (extrovert){
             compatibilityScore++;
         }
-        if (participant1.getLikesTraveling() == participant2.getLikesTraveling()) {
+        boolean travel = participant1.getLikesTraveling() == participant2.getLikesTraveling();
+        if (travel){
             compatibilityScore++;
         }
-        if (participant1.getSharedMorals() == participant2.getSharedMorals()) {
+        boolean morals = participant1.getSharedMorals() == participant2.getSharedMorals();
+        if (morals){
             compatibilityScore++;
         }
-        if (participant1.getIsRomantic() == participant2.getIsRomantic()) {
+
+        boolean romantic =  participant1.getIsRomantic() == participant2.getIsRomantic();
+        if (romantic){
             compatibilityScore++;
         }
         return compatibilityScore;
+
 
     }
 
@@ -222,12 +235,8 @@ public class MeetCuteController {
             System.out.println();
 
         }
-        System.out.print(matchedPairs);
         System.out.println("Total Matched Count: " + matchedCount);
     }
-
-
-
 }
 
 

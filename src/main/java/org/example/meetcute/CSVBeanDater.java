@@ -189,16 +189,17 @@ public class CSVBeanDater {
     public int getLookingForSeriousRelationship() {
         return lookingForSeriousRelationship;
     }
+
     public int getIntellectualLevel() {
-        return intellectualLevel;
+        return intellectualConversations;
     }
 
     public int getExtrovertLevel() {
-        return extrovertLevel;
+        return isExtrovert;
     }
 
     public int getLikesTraveling() {
-        return likesTraveling;
+        return likeTravel;
     }
 
     public int getSharedMorals() {

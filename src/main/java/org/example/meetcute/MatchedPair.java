@@ -22,4 +22,12 @@ public class MatchedPair {
     public int getCompatibilityScore() {
         return compatibilityScore;
     }
+
+    @Override
+    public String toString() {
+        return "Matched Pair:\n" +
+                "Participant 1: " + participant1.getFullName() + "\n" +
+                "Participant 2: " + participant2.getFullName() + "\n" +
+                "Compatibility Score: " + compatibilityScore + "\n";
+    }
 }
