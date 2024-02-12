@@ -150,23 +150,23 @@ public class CSVBeanDater {
         return confidenceLevel;
     }
 
-    public int isLikesDancing() {
+    public int getLikesDancing() {
         return likesDancing;
     }
 
-    public int isGoesClubbing() {
+    public int getGoesClubbing() {
         return goesClubbing;
     }
 
-    public int isLikesBookAndMovies() {
+    public int getLikesBookAndMovies() {
         return likesBookAndMovies;
     }
 
-    public int isLikesSarcasticPeople() {
+    public int getLikesSarcasticPeople() {
         return likesSarcasticPeople;
     }
 
-    public int isPassionateAboutPolitics() {
+    public int getPassionateAboutPolitics() {
         return passionateAboutPolitics;
     }
 

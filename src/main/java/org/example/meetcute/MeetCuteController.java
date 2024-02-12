@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.sql.Date;
 
 
@@ -112,48 +110,144 @@ public class MeetCuteController {
             System.out.println("No file selected");
         }
         matchAndCalculateCompatibility(Romanticlist);
+        friendCompatibility(FriendList);
 
 
     }
 
-    //get list
-    public List<CSVBeanDater> getList() {
-        return Collections.unmodifiableList(Romanticlist);
+    private void friendCompatibility(List<CSVBeanDater> participants) {
+        List<MatchedPair> matchedPairs = new ArrayList<>();
+        Set<CSVBeanDater> matched = new HashSet<>();
+        List<CSVBeanDater> unmatchedParticipants = new ArrayList<>(participants);
+        for (int i = 0; i < unmatchedParticipants.size(); i++) {
+                CSVBeanDater participant1 = unmatchedParticipants.get(i);
+
+                // Skip participant1 if already matched
+                if (matched.contains(participant1)) {
+                    continue;
+                }
+
+                System.out.println("Checking participant1: " + participant1.getFullName());
+
+                for (int j = 0; j < unmatchedParticipants.size(); j++) {
+                    CSVBeanDater participant2 = unmatchedParticipants.get(j);
+
+                    // Skip participant2 if already matched or if it's the same as participant1
+                    if (i == j || matched.contains(participant2)) {
+                        continue;
+                    }
+
+                    System.out.println("Checking participant2: " + participant2.getFullName());
+
+                    int compatibilityScore = calculateCompatibilityScoreFriends(participant1, participant2);
+                    System.out.println("Compatibility score between " + participant1.getFullName() +
+                            " and " + participant2.getFullName() + ": " + compatibilityScore);
+
+                    if (compatibilityScore >= 1) { // Adjusted to match only if compatibility score is 1 or above
+                        MatchedPair pairs = new MatchedPair(participant1, participant2, compatibilityScore);
+                        matchedPairs.add(pairs);
+                        matched.add(participant1);
+                        matched.add(participant2);
+                        matchedCount += 2; // Increment matched count for both participants
+                        System.out.println("Pair added to matchedPairs.");
+                        break; // Exit the inner loop once a match is found
+                    }
+                }
+        }
+        // Output matched pairs
+        outputMatches(matchedPairs);
+    }
+    
+
+    private int calculateCompatibilityScoreFriends (CSVBeanDater participant1, CSVBeanDater participant2) {
+        int compatibilityScores = 0;
+        // Compare responses for each question and calculate the score
+        boolean adventurous = participant1.getAdventurousLevel() == participant2.getAdventurousLevel();
+        if (adventurous){
+            compatibilityScores++;
+        }
+
+
+        boolean confidence = participant1.getConfidenceLevel() == participant2.getConfidenceLevel();
+        if (confidence) {
+            compatibilityScores++;
+        }
+
+        boolean dance = participant1.getLikesDancing() == participant2.getLikesDancing();
+        if (dance) {
+            compatibilityScores++;
+        }
+        boolean clubbng = participant1.getGoesClubbing() == participant2.getGoesClubbing();
+        if (clubbng){
+            compatibilityScores++;
+        }
+        boolean booksmovies = participant1.getLikesBookAndMovies() == participant2.getLikesBookAndMovies();
+        if (booksmovies){
+            compatibilityScores++;
+        }
+        boolean sarcastic = participant1.getLikesSarcasticPeople() == participant2.getLikesSarcasticPeople();
+        if (sarcastic){
+            compatibilityScores++;
+        }
+
+        boolean polictics =  participant1.getPassionateAboutPolitics() == participant2.getPassionateAboutPolitics();
+        if (polictics){
+            compatibilityScores++;
+        }
+        return compatibilityScores;
+
+
     }
 
     private void matchAndCalculateCompatibility(List<CSVBeanDater> participants) {
         // Implement matching and compatibility score calculation logic here
         List<MatchedPair> matchedPairs = new ArrayList<>();
+        Set<CSVBeanDater> alreadyMatched = new HashSet<>();
         List<CSVBeanDater> unmatchedParticipants = new ArrayList<>(participants);
+
         for (int i = 0; i < unmatchedParticipants.size(); i++) {
             CSVBeanDater participant1 = unmatchedParticipants.get(i);
-            if (!unmatchedParticipants.contains(participant1)) {
-                continue; // Participant already matched
+
+            // Skip participant1 if already matched
+            if (alreadyMatched.contains(participant1)) {
+                continue;
             }
+
             System.out.println("Checking participant1: " + participant1.getFullName());
-            for (int j = i + 1; j < unmatchedParticipants.size(); j++) {
+
+            for (int j = 0; j < unmatchedParticipants.size(); j++) {
                 CSVBeanDater participant2 = unmatchedParticipants.get(j);
+
+                // Skip participant2 if already matched or if it's the same as participant1
+                if (i == j || alreadyMatched.contains(participant2)) {
+                    continue;
+                }
+
                 System.out.println("Checking participant2: " + participant2.getFullName());
+
                 if (areCompulsoryFieldsMatching(participant1, participant2)) {
                     int compatibilityScore = calculateCompatibilityScore(participant1, participant2);
                     System.out.println("Compatibility score between " + participant1.getFullName() +
                             " and " + participant2.getFullName() + ": " + compatibilityScore);
-                    if (compatibilityScore >= 1) { // Adjusted to match only if compatibility score is 3 or above
+
+                    if (compatibilityScore >= 1) { // Adjusted to match only if compatibility score is 1 or above
                         MatchedPair pair = new MatchedPair(participant1, participant2, compatibilityScore);
                         matchedPairs.add(pair);
-                        unmatchedParticipants.remove(participant1);
-                        unmatchedParticipants.remove(participant2);
-                        matchedCount += 1;
+                        alreadyMatched.add(participant1);
+                        alreadyMatched.add(participant2);
+                        matchedCount += 2; // Increment matched count for both participants
                         System.out.println("Pair added to matchedPairs.");
-
+                        break; // Exit the inner loop once a match is found
                     }
-                    break;
                 }
             }
         }
+
         // Output matched pairs
         outputMatches(matchedPairs);
     }
+
+
 
 
 
@@ -237,7 +331,9 @@ public class MeetCuteController {
         }
         System.out.println("Total Matched Count: " + matchedCount);
     }
+    
 }
+
 
 
 
